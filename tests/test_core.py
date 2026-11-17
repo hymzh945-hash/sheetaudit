@@ -60,6 +60,18 @@ def test_healthy_formula_chain_is_not_flagged(tmp_path):
     assert "circular_reference" not in checks(result)
 
 
+def test_cross_sheet_reference_is_not_a_cycle(tmp_path):
+    wb = Workbook()
+    ws = wb.active
+    ws["B2"] = "=Assumptions!$B$2*2+1"
+    other = wb.create_sheet("Assumptions")
+    other["B2"] = 0.05
+    path = tmp_path / "cross.xlsx"
+    wb.save(path)
+    result = audit.audit(path)
+    assert "circular_reference" not in checks(result)
+
+
 def test_external_workbook_link(tmp_path):
     path = book(tmp_path, {"A1": "='[Budget.xlsx]Sheet1'!B4"})
     result = audit.audit(path)

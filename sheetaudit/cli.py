@@ -26,20 +26,37 @@ def demo_workbook(path: Path) -> Path:
     ws = wb.active
     ws.title = "P&L"
 
-    ws["A1"], ws["B1"], ws["C1"] = "Item", "Amount", "Growth"
-    items = [("Revenue", 1200), ("COGS", 480), ("Gross profit", 720), ("Opex", 300), ("EBIT", 420)]
+    ws["A1"], ws["B1"], ws["C1"] = "Item", "FY24", "FY25"
+    items = [
+        ("Revenue: product", 1200), ("Revenue: services", 480), ("Revenue: other", 96),
+        ("COGS: materials", 310), ("COGS: freight", 88), ("COGS: labour", 152),
+        ("Gross profit", 1126), ("Sales & marketing", 240), ("Research", 130),
+        ("General & admin", 92), ("Occupancy", 64), ("Software", 38),
+        ("Depreciation", 44), ("Interest", 22), ("FX loss", 15),
+        ("EBIT", 481), ("Tax", 101), ("Net income", 380),
+    ]
     for i, (label, amount) in enumerate(items, start=2):
         ws[f"A{i}"] = label
         ws[f"B{i}"] = amount
         ws[f"C{i}"] = f"=B{i}*1.05"          # hardcoded 1.05 on every row
-    ws["C6"] = "=B6*1.08"                     # one row drifts from the pattern
+    ws["C20"] = "=B20*1.08"                   # one row drifts from the pattern
     ws["D2"] = '=INDIRECT("B2")'              # volatile
     ws["E2"] = "='[Budget2025.xlsx]Sheet1'!B4"  # external workbook link
-    ws["B9"] = "#REF!"                        # error value pasted as text
-    ws["A10"] = "1234"                        # number stored as text
-    ws.merge_cells("A12:B12")
-    ws["A12"] = "Notes merged across two columns"
-    ws["F2"] = "=SUM(B2:B6)/0"                # will blow up on recalculation
+    ws["B24"] = "#REF!"                       # error value pasted as text
+    ws["A26"] = "1,234"                       # number stored as text
+    ws.merge_cells("A28:B28")
+    ws["A28"] = "Notes merged across two columns"
+    ws["F2"] = "=SUM(B2:B19)/0"               # will blow up on recalculation
+
+    drivers = wb.create_sheet("Drivers")
+    drivers["A1"] = "Driver"
+    for month in range(1, 13):
+        drivers.cell(row=1, column=month + 1, value=f"M{month}")
+    for row in range(2, 10):
+        drivers.cell(row=row, column=1, value=f"Driver {row - 1}")
+        for month in range(1, 13):
+            drivers.cell(row=row, column=month + 1,
+                         value=f"=Assumptions!$B$2*{row}+{month}")
 
     hidden = wb.create_sheet("Scratch")
     hidden["A1"] = "=A1+1"                    # circular

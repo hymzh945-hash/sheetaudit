@@ -33,6 +33,10 @@ def _normalise(formula: str) -> str:
 
 def _refs(formula: str, sheet_max_row: int = 10_000) -> Iterable[Tuple[int, int]]:
     for match in CELL_REF.finditer(formula):
+        # `Assumptions!$B$2` is a cross-sheet reference; treating it as a local B2
+        # invents cycles that do not exist.
+        if match.start() > 0 and formula[match.start() - 1] == "!":
+            continue
         col = 0
         for ch in match.group(2):
             col = col * 26 + (ord(ch) - 64)
@@ -131,10 +135,12 @@ def check_hardcoded(book: Dict, threshold: int = 1) -> List[Dict]:
                 continue
             stripped = CELL_REF.sub("", RANGE_REF.sub("", formula))
             numbers = [n for n in NUMBER.findall(stripped)]
-            meaningful = [n for n in numbers if n not in {"0", "1", "2"}]
+            # A decimal literal is a hidden assumption (1.05, 0.075). Small integers are
+            # structural (offsets, indexes) and flagging them floods the report.
+            meaningful = [n for n in numbers if ("." in n or float(n) >= 50)]
             if len(meaningful) >= threshold:
                 out.append(_finding("hardcoded_constant", "low", sheet["name"], cell["ref"],
-                                    f"formula carries {len(meaningful)} constants: "
+                                    f"formula carries {len(meaningful)} hardcoded constant(s): "
                                     + ", ".join(meaningful[:5])))
     return out
 
@@ -227,7 +233,11 @@ def _judge_block(sheet_name: str, block: List[Tuple[int, str, str]], min_block: 
     shapes = Counter(shape for _, shape, _ in block)
     if len(shapes) == 1:
         return []
-    dominant, _ = shapes.most_common(1)[0]
+    dominant, dominant_n = shapes.most_common(1)[0]
+    # A block where every row has its own shape is a legitimate pattern (offset rows,
+    # per-period adders), not drift. Only a clear majority plus a minority is drift.
+    if dominant_n / len(block) < 0.7:
+        return []
     odd = [(ref, shape) for _, shape, ref in block if shape != dominant]
     if not odd:
         return []

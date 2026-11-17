@@ -1,18 +1,31 @@
 severity,check,sheet,cell,detail
-high,error_value,P&L,B9,#REF! in B9
+high,error_value,P&L,B24,#REF! in B24
 high,circular_reference,Scratch,A1,cycle: A1
-medium,inconsistent_formula,P&L,C6,1 of 5 cells in this column deviate from the pattern
+medium,inconsistent_formula,P&L,C20,1 of 19 cells in this column deviate from the pattern
 medium,volatile_function,P&L,D2,INDIRECT forces recalculation
 medium,external_link,P&L,E2,formula points at another workbook
 medium,division_by_zero,P&L,F2,formula divides by a literal zero
 medium,hidden_sheet,Scratch,-,sheet is hidden with 2 live formulas
 medium,volatile_function,Scratch,A2,OFFSET forces recalculation
 low,no_structure_protection,<workbook>,-,"sheets can be added, deleted or reordered without a password"
-low,number_as_text,P&L,A10,numeric text '1234' will not sum
-low,merged_cells,P&L,A12:B12,merged range can break sorting and copy-down
-low,hardcoded_constant,P&L,C2,formula carries 1 constants: 1.05
-low,hardcoded_constant,P&L,C3,formula carries 1 constants: 1.05
-low,hardcoded_constant,P&L,C4,formula carries 1 constants: 1.05
-low,hardcoded_constant,P&L,C5,formula carries 1 constants: 1.05
-low,hardcoded_constant,P&L,C6,formula carries 1 constants: 1.08
-low,hardcoded_constant,P&L,E2,formula carries 1 constants: 2025
+low,merged_cells,P&L,A28:B28,merged range can break sorting and copy-down
+low,hardcoded_constant,P&L,C10,formula carries 1 hardcoded constant(s): 1.05
+low,hardcoded_constant,P&L,C11,formula carries 1 hardcoded constant(s): 1.05
+low,hardcoded_constant,P&L,C12,formula carries 1 hardcoded constant(s): 1.05
+low,hardcoded_constant,P&L,C13,formula carries 1 hardcoded constant(s): 1.05
+low,hardcoded_constant,P&L,C14,formula carries 1 hardcoded constant(s): 1.05
+low,hardcoded_constant,P&L,C15,formula carries 1 hardcoded constant(s): 1.05
+low,hardcoded_constant,P&L,C16,formula carries 1 hardcoded constant(s): 1.05
+low,hardcoded_constant,P&L,C17,formula carries 1 hardcoded constant(s): 1.05
+low,hardcoded_constant,P&L,C18,formula carries 1 hardcoded constant(s): 1.05
+low,hardcoded_constant,P&L,C19,formula carries 1 hardcoded constant(s): 1.05
+low,hardcoded_constant,P&L,C2,formula carries 1 hardcoded constant(s): 1.05
+low,hardcoded_constant,P&L,C20,formula carries 1 hardcoded constant(s): 1.08
+low,hardcoded_constant,P&L,C3,formula carries 1 hardcoded constant(s): 1.05
+low,hardcoded_constant,P&L,C4,formula carries 1 hardcoded constant(s): 1.05
+low,hardcoded_constant,P&L,C5,formula carries 1 hardcoded constant(s): 1.05
+low,hardcoded_constant,P&L,C6,formula carries 1 hardcoded constant(s): 1.05
+low,hardcoded_constant,P&L,C7,formula carries 1 hardcoded constant(s): 1.05
+low,hardcoded_constant,P&L,C8,formula carries 1 hardcoded constant(s): 1.05
+low,hardcoded_constant,P&L,C9,formula carries 1 hardcoded constant(s): 1.05
+low,hardcoded_constant,P&L,E2,formula carries 1 hardcoded constant(s): 2025
