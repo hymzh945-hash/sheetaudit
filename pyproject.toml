@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sheetaudit"
+version = "0.1.0"
+description = "Find what breaks a spreadsheet before someone else does: circular refs, error values, formula drift."
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [{ name = "SheetAudit" }]
+keywords = ["excel", "xlsx", "spreadsheet", "audit", "model-risk", "openpyxl", "finance"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Topic :: Office/Business :: Financial :: Spreadsheet",
+  "Environment :: Console",
+  "Operating System :: OS Independent",
+]
+dependencies = ["openpyxl>=3.1"]
+
+[project.optional-dependencies]
+dev = ["pytest>=7"]
+
+[project.scripts]
+sheetaudit = "sheetaudit.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["sheetaudit*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
