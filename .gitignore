@@ -9,3 +9,4 @@ dist/*.whl
 *.json
 !examples/*.json
 pack/
+dist/*.tar.gz
