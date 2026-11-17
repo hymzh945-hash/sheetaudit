@@ -93,6 +93,13 @@ formulas and the cached values Excel last saved. That means:
 
 It supports `.xlsx` and `.xlsm`. Legacy `.xls` is not supported (openpyxl cannot read it).
 
+## Pro edition
+
+The paid edition adds the HTML report templates, CSV exports, and an offline-verified signed
+licence — no server check, no telemetry. $39 once, yours to keep:
+
+https://hymz.gumroad.com/l/sheetaudit
+
 ## Built on
 
 `openpyxl` (MIT) for workbook parsing. SheetAudit adds the checks, scoring, report and licence
